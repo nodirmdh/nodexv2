@@ -1,5 +1,13 @@
 # Nodex Delivery Platform
 
+## Snapshot (2026-03-05)
+- MVP focus switched to **client <-> vendor only** (courier flow disabled in runtime).
+- Telegram entry split into **two bots**: client bot and vendor bot.
+- Client identity now tied to Telegram user (`tg:<telegram_user_id>`) with migration from legacy dev IDs.
+- Added session documentation for continuation:
+  - `docs/HANDOFF_2026-03-05.md`
+  - `docs/RELEASE_NOTES_2026-03-05.md`
+
 ## What this project is
 Nodex is a unified delivery platform with a single backend and single database supporting four interfaces:
 - **Admin Panel (Web)**: Browser-based admin console.

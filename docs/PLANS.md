@@ -1,5 +1,19 @@
 # Implementation Plan
 
+## Phase 4.3: Telegram Mini Apps stabilization (current)
+**Deliverables**
+- Stabilize client and vendor mini app startup inside Telegram WebView.
+- Finalize Telegram identity mapping (`initData` first, safe fallback only when allowed).
+- Eliminate account mixing between multiple Telegram users.
+- Ensure in-app map interaction works on client/vendor/admin without forced external navigation.
+- Complete mobile-first layout fixes for vendor pages (orders/promotions/account/support).
+- Keep admin visibility aligned with real client IDs and migrated historical data.
+
+**Tests**
+- Manual E2E on two different Telegram accounts (isolation, profile data, orders).
+- Regression check for order creation, order details, and profile save.
+- Mobile viewport checks on core client/vendor screens.
+
 ## Phase 0: Docs and setup
 **Deliverables**
 - Complete core documentation set.

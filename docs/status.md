@@ -1,6 +1,15 @@
 # Project Status
 
 ## Current status
+- **Done (2026-03-05 session)**: Project stabilized for MVP model without courier delivery; vendor handles delivery.
+- **Done (2026-03-05 session)**: Telegram flow split into two bots (client/vendor) with dedicated webapp URLs.
+- **Done (2026-03-05 session)**: Client identity resolution updated to prioritize Telegram `initData` user and avoid shared account behavior.
+- **Done (2026-03-05 session)**: Added merge path from legacy dev clients (`dev-*`, `tg:dev:*`) into real Telegram client IDs during profile sync.
+- **Done (2026-03-05 session)**: Client/Vendor map pickers restored to in-app interactive selection (without forced external app switch).
+- **Done (2026-03-05 session)**: Admin panel logout added; vendor ID field hidden in vendor miniapp header.
+- **Done (2026-03-05 session)**: Client startup hardening in Telegram WebView (reduced fatal black-screen startup paths).
+- **Done (2026-03-05 session)**: Bot `/start` improved for client flow: request contact first, then show Mini App button.
+- **In progress (2026-03-05 session)**: Final stabilization of Telegram `initData` consistency and remaining intermittent frontend script errors.
 - **Done**: Monorepo setup with npm workspaces. Phase 0 tooling added (Node/TypeScript/Vitest). Phase 1 quote contract and pricing logic implemented in TypeScript with Vitest tests. `/client/cart/quote` wired to a minimal Fastify server with Prisma-backed repository and Postgres setup. Admin Web UI implemented (vendors, orders, promo codes, promotions) with API integration and JWT auth. Cleanup pass completed (removed Python artifacts and empty directories). Repo hygiene applied (.gitignore, integration test script, Prisma run steps documented). Phase 2 complete: orders + full promotions + codes + state transitions + domain events + client/vendor/courier endpoints (tracking, availability, location). Docs updated for `vendor_comment` and Profile support buttons.
 - **Done**: Enabled CORS for admin web to call API from `http://localhost:5173`.
 - **Done**: `/client/cart/quote` now applies promo codes when provided; quote route test updated to send `promo_code`.
@@ -126,6 +135,12 @@
 
 
 ## TODO / Next steps
+- Verify client startup stability under Telegram Android WebView after long inactivity/sleep.
+- Add explicit telemetry/logging for unhandled client script errors in mini app runtime.
+- Finish vendor account page mobile overflow cleanup on all form blocks.
+- Re-check promotions table mobile layout in vendor mini app.
+- Add automatic timeout cancellation (7 minutes) for not accepted vendor orders if product decision remains confirmed.
+- Revisit admin client list cleanup strategy for legacy IDs after migration window closes.
 - Add auth + Telegram `initData` verification and RBAC.
 - Implement PR-D (media uploads, client UI polish).
 - Audit remaining screens for UI kit consistency (vendor dashboard/menu/order details, client home/vendor/details, courier home/history).
