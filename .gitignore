@@ -1,0 +1,30 @@
+# deps
+node_modules/
+**/node_modules/
+
+# env
+.env
+.env.*
+!.env.example
+
+# build
+dist/
+build/
+**/dist/
+**/build/
+
+# logs
+*.log
+.runlogs/
+.screens/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# prisma
+prisma/dev.db
+
+# runtime uploads
+uploads/*
+!uploads/.gitkeep

@@ -1,0 +1,27 @@
+{
+  "name": "nodex",
+  "private": true,
+  "version": "0.1.0",
+  "type": "commonjs",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "npm -w apps/api run dev",
+    "dev:admin": "npm -w apps/admin-web run dev",
+    "dev:client": "npm -w apps/client-miniapp run dev",
+    "dev:courier": "echo Courier module is disabled",
+    "dev:vendor": "npm -w apps/vendor-web run dev",
+    "dev:bot": "npm -w apps/telegram-bot run start",
+    "dev:bot:client": "npm -w apps/telegram-bot run start:client",
+    "dev:bot:vendor": "npm -w apps/telegram-bot run start:vendor",
+    "test": "npm -ws run test --if-present",
+    "seed": "npm -w apps/api run seed",
+    "test:unit": "npm -w apps/api run test:unit",
+    "test:int": "npm -w apps/api run test:int",
+    "lint": "npm -ws run lint",
+    "typecheck": "npm -ws run typecheck",
+    "build": "npm -ws run build"
+  }
+}

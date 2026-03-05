@@ -1,0 +1,11 @@
+{
+  "name": "nodex-telegram-bot",
+  "private": true,
+  "version": "0.1.0",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/bot.js combined",
+    "start:client": "node src/bot.js client",
+    "start:vendor": "node src/bot.js vendor"
+  }
+}
