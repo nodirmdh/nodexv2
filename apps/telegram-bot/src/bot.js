@@ -17,7 +17,6 @@ const BOT_TOKEN =
       : process.env.TELEGRAM_BOT_TOKEN || "";
 const CLIENT_WEBAPP_URL = process.env.TELEGRAM_CLIENT_WEBAPP_URL || "";
 const VENDOR_WEBAPP_URL = process.env.TELEGRAM_VENDOR_WEBAPP_URL || "";
-const ADMIN_URL = process.env.TELEGRAM_ADMIN_URL || "";
 const SYNC_API_URL = process.env.TELEGRAM_SYNC_API_URL || "http://localhost:3000";
 const API_BASE = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
@@ -105,10 +104,6 @@ function buildMainKeyboard(from) {
     ]);
   }
 
-  if (ADMIN_URL) {
-    rows.push([{ text: "Open Admin Panel", url: ADMIN_URL }]);
-  }
-
   return { inline_keyboard: rows };
 }
 
@@ -122,7 +117,7 @@ async function sendMenu(chatId, from) {
 
   await apiCall("sendMessage", {
     chat_id: chatId,
-    text: "Nodex bot menu:\n" + appLabel + (ADMIN_URL ? "- Admin Web\n" : ""),
+    text: "Nodex bot menu:\n" + appLabel,
     reply_markup: buildMainKeyboard(from),
   });
 }
