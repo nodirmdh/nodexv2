@@ -6073,6 +6073,8 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
     }
   });
 
+  app.get("/health", async () => ({ ok: true }));
+
   return app;
 }
 
