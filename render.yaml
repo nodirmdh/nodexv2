@@ -26,11 +26,12 @@ services:
       - key: JWT_SECRET
         sync: false
 
-  - type: worker
+  - type: web
     name: nodex-bot-client
     runtime: node
     plan: free
     rootDir: .
+    healthCheckPath: /health
     buildCommand: npm install --include=dev
     startCommand: npm -w apps/telegram-bot run start:client
     autoDeploy: true
@@ -47,6 +48,8 @@ services:
         sync: false
       - key: TELEGRAM_ADMIN_URL
         sync: false
+      - key: TELEGRAM_SYNC_API_URL
+        value: https://nodex-api-0ksq.onrender.com
       - key: TELEGRAM_INITDATA_MAX_AGE_SEC
         value: "86400"
       - key: VITE_API_URL
@@ -54,11 +57,12 @@ services:
       - key: DEV_MODE
         value: "false"
 
-  - type: worker
+  - type: web
     name: nodex-bot-vendor
     runtime: node
     plan: free
     rootDir: .
+    healthCheckPath: /health
     buildCommand: npm install --include=dev
     startCommand: npm -w apps/telegram-bot run start:vendor
     autoDeploy: true
@@ -75,6 +79,8 @@ services:
         sync: false
       - key: TELEGRAM_ADMIN_URL
         sync: false
+      - key: TELEGRAM_SYNC_API_URL
+        value: https://nodex-api-0ksq.onrender.com
       - key: TELEGRAM_INITDATA_MAX_AGE_SEC
         value: "86400"
       - key: VITE_API_URL

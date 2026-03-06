@@ -1,4 +1,5 @@
 const path = require("path");
+const http = require("http");
 require("dotenv").config({
   path: path.resolve(__dirname, "../../../.env"),
 });
@@ -134,6 +135,23 @@ function buildContactKeyboard() {
   };
 }
 
+function startHealthServer() {
+  const port = Number(process.env.PORT || 0);
+  if (!port) return;
+  const server = http.createServer((req, res) => {
+    if (req.url === "/health" || req.url === "/") {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ ok: true, mode: BOT_MODE }));
+      return;
+    }
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Not Found" }));
+  });
+  server.listen(port, "0.0.0.0", () => {
+    console.log(`Bot health server listening on 0.0.0.0:${port}`);
+  });
+}
+
 async function syncClientProfileFromTelegram(message) {
   const from = message.from || {};
   const contact = message.contact || null;
@@ -218,3 +236,5 @@ poll().catch((error) => {
   console.error("Bot stopped:", error);
   process.exit(1);
 });
+
+startHealthServer();
