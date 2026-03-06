@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: nodex-api
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: npm install && npm -w apps/api run prisma:generate && npm -w apps/api run build
+    startCommand: npm -w apps/api run prisma:push && npm -w apps/api run start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DEV_MODE
+        value: "false"
+      - key: PORT
+        value: "10000"
+      - key: HOST
+        value: "0.0.0.0"
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false

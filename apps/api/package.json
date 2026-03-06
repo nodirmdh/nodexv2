@@ -5,7 +5,10 @@
   "type": "commonjs",
   "scripts": {
     "dev": "tsx watch src/dev.ts",
+    "start": "node dist/src/dev.js",
     "build": "tsc -p tsconfig.json",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
     "test": "vitest run",
     "test:unit": "vitest run --exclude **/*.int.test.ts",
     "test:int": "dotenv -e .env.test -- vitest run -c vitest.int.config.ts",
