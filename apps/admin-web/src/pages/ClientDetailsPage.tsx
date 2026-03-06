@@ -75,23 +75,23 @@ export function ClientDetailsPage() {
       {activeTab === "profile" && (
         <>
           {details.profile ? (
-            <div className="details-grid">
-              <div>
+            <div className="metric-grid">
+              <article className="metric-card">
                 <strong>{t("admin.clients.profile.name")}</strong>
-                <div>{details.profile.full_name ?? "-"}</div>
-              </div>
-              <div>
+                <div className="metric-value-sm">{details.profile.full_name ?? "-"}</div>
+              </article>
+              <article className="metric-card">
                 <strong>{t("admin.clients.profile.phone")}</strong>
-                <div>{details.profile.phone ?? "-"}</div>
-              </div>
-              <div>
+                <div className="metric-value-sm">{details.profile.phone ?? "-"}</div>
+              </article>
+              <article className="metric-card">
                 <strong>{t("admin.clients.profile.telegram")}</strong>
-                <div>{details.profile.telegram_username ?? "-"}</div>
-              </div>
-              <div>
+                <div className="metric-value-sm">{details.profile.telegram_username ?? "-"}</div>
+              </article>
+              <article className="metric-card">
                 <strong>{t("admin.clients.profile.about")}</strong>
-                <div>{details.profile.about ?? "-"}</div>
-              </div>
+                <div className="metric-value-sm">{details.profile.about ?? "-"}</div>
+              </article>
             </div>
           ) : (
             <p>{t("admin.clients.profile.empty")}</p>
@@ -104,28 +104,30 @@ export function ClientDetailsPage() {
           {details.addresses.length === 0 ? (
             <p>{t("admin.clients.addresses.empty")}</p>
           ) : (
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>{t("admin.clients.addresses.type")}</th>
-                  <th>{t("admin.clients.addresses.address")}</th>
-                  <th>{t("admin.clients.addresses.entrance")}</th>
-                  <th>{t("admin.clients.addresses.apartment")}</th>
-                  <th>{t("admin.clients.addresses.created")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {details.addresses.map((address) => (
-                  <tr key={address.id}>
-                    <td>{address.type}</td>
-                    <td>{address.address_text}</td>
-                    <td>{address.entrance ?? "-"}</td>
-                    <td>{address.apartment ?? "-"}</td>
-                    <td>{formatDateTime(address.created_at)}</td>
+            <div className="section-card table-wrap">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>{t("admin.clients.addresses.type")}</th>
+                    <th>{t("admin.clients.addresses.address")}</th>
+                    <th>{t("admin.clients.addresses.entrance")}</th>
+                    <th>{t("admin.clients.addresses.apartment")}</th>
+                    <th>{t("admin.clients.addresses.created")}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {details.addresses.map((address) => (
+                    <tr key={address.id}>
+                      <td>{address.type}</td>
+                      <td>{address.address_text}</td>
+                      <td>{address.entrance ?? "-"}</td>
+                      <td>{address.apartment ?? "-"}</td>
+                      <td>{formatDateTime(address.created_at)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}
@@ -135,30 +137,32 @@ export function ClientDetailsPage() {
           {details.orders.length === 0 ? (
             <p>{t("admin.clients.orders.empty")}</p>
           ) : (
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>{t("admin.clients.orders.order")}</th>
-                  <th>{t("admin.clients.orders.status")}</th>
-                  <th>{t("admin.clients.orders.vendor")}</th>
-                  <th>{t("admin.clients.orders.fulfillment")}</th>
-                  <th>{t("admin.clients.orders.total")}</th>
-                  <th>{t("admin.clients.orders.created")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {details.orders.map((order) => (
-                  <tr key={order.order_id}>
-                    <td>{order.order_id}</td>
-                    <td>{translateStatus(order.status)}</td>
-                    <td>{order.vendor_id}</td>
-                    <td>{translateFulfillment(order.fulfillment_type)}</td>
-                    <td>{formatNumber(order.total)}</td>
-                    <td>{formatDateTime(order.created_at)}</td>
+            <div className="section-card table-wrap">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>{t("admin.clients.orders.order")}</th>
+                    <th>{t("admin.clients.orders.status")}</th>
+                    <th>{t("admin.clients.orders.vendor")}</th>
+                    <th>{t("admin.clients.orders.fulfillment")}</th>
+                    <th>{t("admin.clients.orders.total")}</th>
+                    <th>{t("admin.clients.orders.created")}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {details.orders.map((order) => (
+                    <tr key={order.order_id}>
+                      <td>{order.order_id}</td>
+                      <td>{translateStatus(order.status)}</td>
+                      <td>{order.vendor_id}</td>
+                      <td>{translateFulfillment(order.fulfillment_type)}</td>
+                      <td>{formatNumber(order.total)}</td>
+                      <td>{formatDateTime(order.created_at)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}
@@ -168,30 +172,32 @@ export function ClientDetailsPage() {
           {details.promo_codes.length === 0 ? (
             <p>{t("admin.clients.promo.empty")}</p>
           ) : (
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>{t("admin.clients.promo.code")}</th>
-                  <th>{t("admin.clients.promo.type")}</th>
-                  <th>{t("admin.clients.promo.value")}</th>
-                  <th>{t("admin.clients.promo.active")}</th>
-                  <th>{t("admin.clients.promo.status")}</th>
-                  <th>{t("admin.clients.promo.used")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {details.promo_codes.map((promo) => (
-                  <tr key={promo.id}>
-                    <td>{promo.code}</td>
-                    <td>{promo.type}</td>
-                    <td>{formatNumber(promo.value)}</td>
-                    <td>{promo.is_active ? t("common.yes") : t("common.no")}</td>
-                    <td>{promo.status ?? "-"}</td>
-                    <td>{promo.used ? t("common.yes") : t("common.no")}</td>
+            <div className="section-card table-wrap">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>{t("admin.clients.promo.code")}</th>
+                    <th>{t("admin.clients.promo.type")}</th>
+                    <th>{t("admin.clients.promo.value")}</th>
+                    <th>{t("admin.clients.promo.active")}</th>
+                    <th>{t("admin.clients.promo.status")}</th>
+                    <th>{t("admin.clients.promo.used")}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {details.promo_codes.map((promo) => (
+                    <tr key={promo.id}>
+                      <td>{promo.code}</td>
+                      <td>{promo.type}</td>
+                      <td>{formatNumber(promo.value)}</td>
+                      <td>{promo.is_active ? t("common.yes") : t("common.no")}</td>
+                      <td>{promo.status ?? "-"}</td>
+                      <td>{promo.used ? t("common.yes") : t("common.no")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}
@@ -201,30 +207,32 @@ export function ClientDetailsPage() {
           {details.ratings.length === 0 ? (
             <p>{t("admin.clients.ratings.empty")}</p>
           ) : (
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>{t("admin.clients.ratings.order")}</th>
-                  <th>{t("admin.clients.ratings.vendorStars")}</th>
-                  <th>{t("admin.clients.ratings.vendorComment")}</th>
-                  <th>{t("admin.clients.ratings.courierStars")}</th>
-                  <th>{t("admin.clients.ratings.courierComment")}</th>
-                  <th>{t("admin.clients.ratings.created")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {details.ratings.map((rating) => (
-                  <tr key={rating.order_id}>
-                    <td>{rating.order_id}</td>
-                    <td>{rating.vendor_stars}</td>
-                    <td>{rating.vendor_comment ?? "-"}</td>
-                    <td>{rating.courier_stars ?? "-"}</td>
-                    <td>{rating.courier_comment ?? "-"}</td>
-                    <td>{formatDateTime(rating.created_at)}</td>
+            <div className="section-card table-wrap">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>{t("admin.clients.ratings.order")}</th>
+                    <th>{t("admin.clients.ratings.vendorStars")}</th>
+                    <th>{t("admin.clients.ratings.vendorComment")}</th>
+                    <th>{t("admin.clients.ratings.courierStars")}</th>
+                    <th>{t("admin.clients.ratings.courierComment")}</th>
+                    <th>{t("admin.clients.ratings.created")}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {details.ratings.map((rating) => (
+                    <tr key={rating.order_id}>
+                      <td>{rating.order_id}</td>
+                      <td>{rating.vendor_stars}</td>
+                      <td>{rating.vendor_comment ?? "-"}</td>
+                      <td>{rating.courier_stars ?? "-"}</td>
+                      <td>{rating.courier_comment ?? "-"}</td>
+                      <td>{formatDateTime(rating.created_at)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}

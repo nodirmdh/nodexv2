@@ -64,7 +64,10 @@ export function App() {
           <aside className="fixed left-0 top-0 flex h-full w-64 flex-col gap-6 border-r border-slate-100 bg-white/90 px-6 py-8 backdrop-blur">
             <div className="flex items-center gap-3 text-lg font-semibold">
               <LayoutDashboard className="h-5 w-5 text-sky-600" />
-              {t("admin.title")}
+              <div>
+                <div className="text-xs font-extrabold uppercase tracking-[0.14em] text-sky-600">Nodex</div>
+                <div>{t("admin.title")}</div>
+              </div>
             </div>
             <nav className="flex flex-col gap-2 text-sm">
               <NavLink to="/vendors" className={navClass}>
@@ -101,7 +104,11 @@ export function App() {
             </button>
           </aside>
           <main className="ml-64 px-10 py-8">
-            <div className="mb-6 flex justify-end gap-2">
+            <div className="mb-6 flex items-center justify-between gap-2">
+              <div className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-sky-700">
+                Nodex Admin
+              </div>
+              <div className="flex justify-end gap-2">
               <Select
                 value={getLanguage()}
                 onChange={(event) => setLanguage(event.target.value as "ru" | "uz" | "kaa" | "en")}
@@ -115,6 +122,7 @@ export function App() {
               <button className="secondary" onClick={handleLogout}>
                 {t("common.logout")}
               </button>
+              </div>
             </div>
             <Routes>
               <Route path="/" element={<VendorsPage />} />

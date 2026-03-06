@@ -738,6 +738,7 @@ export function App() {
   };
   return (
     <div className="app">
+      <div className="app-brand">Nodex</div>
       <nav className="bottom-nav">
         <button className={screen === "home" ? "active" : ""} onClick={() => setScreen("home")}>
           <Home size={16} /> {t("nav.home")}
@@ -767,6 +768,25 @@ export function App() {
 
       {screen === "home" && (
         <section className="panel">
+          <div className="home-toolbar">
+            <div>
+              <div className="home-title">Nodex</div>
+            </div>
+            <div className="home-lang">
+              <span>{t("client.language")}</span>
+              <select
+                className="input"
+                value={getLanguage()}
+                onChange={(event) => setLanguage(event.target.value as "ru" | "uz" | "kaa" | "en")}
+              >
+                {LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <div className="category-chips">
             {categories.map((category) => (
               <button
@@ -1510,7 +1530,7 @@ export function App() {
 
       {screen === "orderDetails" && (
         <section className="space-y-4">
-          <Button variant="ghost" onClick={goToOrders}>
+          <Button variant="secondary" onClick={goToOrders}>
             {t("client.backToOrders")}
           </Button>
           {isLoading && !order ? (
@@ -1744,21 +1764,6 @@ export function App() {
               ),
             )}
           </div>
-          <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
-            <span>{t("client.language")}</span>
-            <select
-              className="input"
-              value={getLanguage()}
-              onChange={(event) => setLanguage(event.target.value as "ru" | "uz" | "kaa" | "en")}
-            >
-              {LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {profileTab === "account" && (
             <div className="list">
               <div className="card">

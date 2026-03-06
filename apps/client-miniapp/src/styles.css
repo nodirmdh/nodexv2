@@ -50,6 +50,54 @@ body.modal-open {
   padding: 18px 16px 140px;
 }
 
+.app-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(91, 124, 221, 0.28);
+  background: rgba(255, 255, 255, 0.7);
+  color: #1b3e95;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.home-title {
+  font-size: 29px;
+  font-weight: 900;
+  color: var(--text-strong);
+}
+
+.home-subtitle {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.home-lang {
+  display: grid;
+  gap: 6px;
+  min-width: 140px;
+}
+
+.home-lang span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
 .bottom-nav {
   position: fixed;
   left: 10px;
@@ -385,6 +433,7 @@ button {
   border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
+  margin-right: 5px;
 }
 
 .link {
@@ -484,6 +533,7 @@ select:focus {
   font-size: 12px;
   font-weight: 700;
   border: 1px solid rgba(68, 117, 222, 0.24);
+  height: 30px;
 }
 
 .tag.active {
@@ -495,6 +545,10 @@ select:focus {
 @media (max-width: 600px) {
   .app {
     padding: 14px 12px 142px;
+  }
+
+  .home-lang {
+    width: 100%;
   }
 
   .row {

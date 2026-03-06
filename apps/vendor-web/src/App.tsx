@@ -95,7 +95,10 @@ function AppLayout({
       <aside className="fixed left-0 top-0 hidden h-full w-64 flex-col gap-6 border-r border-slate-100 bg-white/90 px-6 py-8 backdrop-blur md:flex">
         <div className="flex items-center gap-3 text-lg font-semibold">
           <LayoutDashboard className="h-5 w-5 text-sky-600" />
-          {t("vendor.title")}
+          <div>
+            <div className="text-xs font-extrabold uppercase tracking-[0.14em] text-sky-600">Nodex</div>
+            <div>{t("vendor.title")}</div>
+          </div>
         </div>
         {showVendorId && (
           <div className="space-y-2">
@@ -148,7 +151,7 @@ function AppLayout({
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 text-base font-semibold">
             <LayoutDashboard className="h-4 w-4 text-sky-600" />
-            {t("vendor.title")}
+            <span>Nodex Vendor</span>
           </div>
           {onLogout && (
             <Button variant="secondary" onClick={onLogout}>
@@ -324,6 +327,7 @@ function VendorLogin({
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-12">
         <Card className="space-y-4">
+          <div className="text-xs font-extrabold uppercase tracking-[0.14em] text-sky-600">Nodex</div>
           <h1 className="text-lg font-semibold">{t("vendor.loginTitle")}</h1>
           <label className="text-sm">
             {t("admin.vendors.form.login")}
@@ -470,76 +474,91 @@ function DashboardPage({ vendorId }: { vendorId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        if (isDevMode && !vendorId) {
-          setData(null);
-          setIsLoading(false);
-          return;
-        }
-        const response = await client.getDashboard("7d");
-        setData(response);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : t("errors.loadDashboard"));
-      } finally {
+  const load = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      if (isDevMode && !vendorId) {
+        setData(null);
         setIsLoading(false);
+        return;
       }
-    };
+      const response = await client.getDashboard("7d");
+      setData(response);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("errors.loadDashboard"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     void load();
   }, [vendorId]);
 
   return (
-    <section>
-      <h2 className="text-xl font-semibold text-slate-900">{t("nav.dashboard")}</h2>
+    <PageShell
+      title={t("nav.dashboard")}
+      subtitle={t("vendor.last7Days")}
+      actions={
+        <Button variant="secondary" onClick={() => void load()}>
+          {t("common.refresh")}
+        </Button>
+      }
+    >
       {error && <div className="error-banner">{error}</div>}
       {isDevMode && !vendorId && <div className="error-banner">{t("errors.vendorIdRequired")}</div>}
       {isLoading ? (
         <p>{t("common.loading")}</p>
       ) : data ? (
-        <>
-          <div className="details-grid">
-            <div>
-              <strong>{t("vendor.revenue")}</strong>
-              <div>{formatNumber(data.revenue)}</div>
-            </div>
-            <div>
-              <strong>{t("vendor.completed")}</strong>
-              <div>{formatNumber(data.completed_count)}</div>
-            </div>
-            <div>
-              <strong>{t("vendor.averageCheck")}</strong>
-              <div>{formatNumber(data.average_check)}</div>
-            </div>
-            <div>
-              <strong>{t("fields.rating")}</strong>
-              <div>
-                {data.rating_avg.toFixed(1)} ({formatNumber(data.rating_count)})
-              </div>
-            </div>
+        <div className="space-y-4">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 ring-1 ring-blue-100">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("vendor.revenue")}</p>
+              <p className="mt-2 text-2xl font-extrabold text-slate-900">{formatNumber(data.revenue)}</p>
+            </Card>
+            <Card className="ring-1 ring-slate-200">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("vendor.completed")}</p>
+              <p className="mt-2 text-2xl font-extrabold text-slate-900">{formatNumber(data.completed_count)}</p>
+            </Card>
+            <Card className="ring-1 ring-slate-200">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("vendor.averageCheck")}</p>
+              <p className="mt-2 text-2xl font-extrabold text-slate-900">{formatNumber(data.average_check)}</p>
+            </Card>
+            <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 ring-1 ring-emerald-100">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("fields.rating")}</p>
+              <p className="mt-2 text-2xl font-extrabold text-slate-900">
+                {data.rating_avg.toFixed(1)}
+                <span className="ml-2 text-sm font-semibold text-slate-500">({formatNumber(data.rating_count)})</span>
+              </p>
+            </Card>
           </div>
-          <h2>{t("vendor.last7Days")}</h2>
-          {data.daily.length === 0 ? (
-            <p>{t("empty.noData")}</p>
-          ) : (
-            <ul className="event-list">
-              {data.daily.map((entry) => (
-                <li key={entry.date}>
-                  <span>{entry.date}</span>
-                  <span>
-                    {formatNumber(entry.revenue)} / {formatNumber(entry.count)} {t("nav.orders")}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </>
+
+          <Card>
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <h3 className="text-base font-bold text-slate-900">{t("vendor.last7Days")}</h3>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">7D</span>
+            </div>
+            {data.daily.length === 0 ? (
+              <p>{t("empty.noData")}</p>
+            ) : (
+              <ul className="event-list">
+                {data.daily.map((entry) => (
+                  <li key={entry.date}>
+                    <span className="font-semibold text-slate-700">{entry.date}</span>
+                    <span>
+                      {formatNumber(entry.revenue)} / {formatNumber(entry.count)} {t("nav.orders")}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Card>
+        </div>
       ) : (
         <p>{t("empty.noData")}</p>
       )}
-    </section>
+    </PageShell>
   );
 }
 
@@ -1284,72 +1303,83 @@ function StatisticsPage({ vendorId }: { vendorId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        if (isDevMode && !vendorId) {
-          setDashboard(null);
-          setReviews([]);
-          setIsLoading(false);
-          return;
-        }
-        const [dash, rev] = await Promise.all([client.getDashboard("7d"), client.listReviews()]);
-        setDashboard(dash);
-        setReviews(rev);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : t("vendor.stats.loadFailed"));
-      } finally {
+  const load = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      if (isDevMode && !vendorId) {
+        setDashboard(null);
+        setReviews([]);
         setIsLoading(false);
+        return;
       }
-    };
+      const [dash, rev] = await Promise.all([client.getDashboard("7d"), client.listReviews()]);
+      setDashboard(dash);
+      setReviews(rev);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("vendor.stats.loadFailed"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     void load();
   }, [vendorId]);
 
   return (
-    <section>
-      <h1>{t("nav.statistics")}</h1>
+    <PageShell
+      title={t("nav.statistics")}
+      subtitle={t("vendor.last7Days")}
+      actions={
+        <Button variant="secondary" onClick={() => void load()}>
+          {t("common.refresh")}
+        </Button>
+      }
+    >
       {error && <div className="error-banner">{error}</div>}
       {isDevMode && !vendorId && <div className="error-banner">{t("errors.vendorIdRequired")}</div>}
       {isLoading ? (
         <p>{t("vendor.stats.loading")}</p>
       ) : dashboard ? (
-        <>
-          <div className="details-grid">
-            <div>
-              <strong>{t("vendor.stats.grossRevenue")}</strong>
-              <div>{formatNumber(dashboard.revenue)}</div>
-            </div>
-            <div>
-              <strong>{t("vendor.stats.serviceFees")}</strong>
-              <div>{formatNumber(dashboard.service_fee_total)}</div>
-            </div>
-            <div>
-              <strong>{t("vendor.stats.vendorOwes")}</strong>
-              <div>{formatNumber(dashboard.vendor_owes)}</div>
-            </div>
+        <div className="space-y-4">
+          <div className="grid gap-3 md:grid-cols-3">
+            <Card className="ring-1 ring-slate-200">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("vendor.stats.grossRevenue")}</p>
+              <p className="mt-2 text-2xl font-extrabold text-slate-900">{formatNumber(dashboard.revenue)}</p>
+            </Card>
+            <Card className="ring-1 ring-slate-200">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("vendor.stats.serviceFees")}</p>
+              <p className="mt-2 text-2xl font-extrabold text-slate-900">{formatNumber(dashboard.service_fee_total)}</p>
+            </Card>
+            <Card className="ring-1 ring-slate-200">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("vendor.stats.vendorOwes")}</p>
+              <p className="mt-2 text-2xl font-extrabold text-slate-900">{formatNumber(dashboard.vendor_owes)}</p>
+            </Card>
           </div>
-          <h2>{t("vendor.stats.latestReviews")}</h2>
-          {reviews.length === 0 ? (
-            <p>{t("empty.noReviews")}</p>
-          ) : (
-            <ul className="event-list">
-              {reviews.map((review) => (
-                <li key={review.order_id}>
-                  <span>{review.order_id}</span>
-                  <span>
-                    {review.vendor_stars} в… вЂ” {review.vendor_comment ?? "-"}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </>
+
+          <Card>
+            <h2 className="mb-3 text-base font-bold text-slate-900">{t("vendor.stats.latestReviews")}</h2>
+            {reviews.length === 0 ? (
+              <p>{t("empty.noReviews")}</p>
+            ) : (
+              <ul className="event-list">
+                {reviews.map((review) => (
+                  <li key={review.order_id}>
+                    <span className="font-semibold text-slate-700">{review.order_id}</span>
+                    <span>
+                      {review.vendor_stars} ★ - {review.vendor_comment ?? "-"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Card>
+        </div>
       ) : (
         <p>{t("empty.noData")}</p>
       )}
-    </section>
+    </PageShell>
   );
 }
 
@@ -2033,7 +2063,7 @@ function OrderDetailsPage({ vendorId }: { vendorId: string }) {
         <Card className="border-amber-200 bg-amber-50">
           <div className="text-sm font-semibold">{t("vendor.orderDetails.selfDelivery")}</div>
           <div className="mt-2 text-sm text-slate-600">
-            РљРѕРґ РєР»РёРµРЅС‚Р°: <strong>{order.delivery_code ?? "РѕР¶РёРґР°РµС‚СЃСЏ"}</strong>
+            Client code: <strong>{order.delivery_code ?? "pending"}</strong>
           </div>
           <div className="mt-3 flex gap-2">
             <Input
@@ -2064,7 +2094,7 @@ function OrderDetailsPage({ vendorId }: { vendorId: string }) {
       )}
 
       <Card className="mt-4">
-        <div className="mb-2 text-sm font-semibold text-slate-900">Р­С‚Р°РїС‹ Р·Р°РєР°Р·Р°</div>
+        <div className="mb-2 text-sm font-semibold text-slate-900">Order stages</div>
         <div className="flex flex-wrap gap-2">
           {["NEW", "ACCEPTED", "COOKING", "READY", "DELIVERED", "COMPLETED", "CANCELLED_BY_VENDOR"].map((step) => (
             <Badge key={step} variant={order.status === step ? "info" : "default"}>

@@ -43,6 +43,7 @@ export function LoginPage() {
 
   return (
     <section className="login-page">
+      <div className="mb-2 text-xs font-extrabold uppercase tracking-[0.14em] text-sky-600">Nodex</div>
       <h1>{t("admin.login.title")}</h1>
       <form className="login-form" onSubmit={handleSubmit}>
         <label>
