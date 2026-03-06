@@ -6156,6 +6156,10 @@ function resolveClientId(
   if (tgId) {
     return normalizeTelegramClientId(tgId);
   }
+  const headerClientId = normalizeTelegramClientId(readHeader(request, "x-client-id"));
+  if (role === "CLIENT" && headerClientId?.startsWith("tg:")) {
+    return headerClientId;
+  }
   const auth = getAuthFromHeaders({ authorization: readHeader(request, "authorization") });
   if (auth?.role === "CLIENT") {
     return auth.clientId ?? auth.sub;
