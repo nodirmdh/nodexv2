@@ -25,3 +25,59 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
+
+  - type: worker
+    name: nodex-bot-client
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: npm install --include=dev
+    startCommand: npm -w apps/telegram-bot run start:client
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TELEGRAM_CLIENT_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_VENDOR_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CLIENT_WEBAPP_URL
+        sync: false
+      - key: TELEGRAM_VENDOR_WEBAPP_URL
+        sync: false
+      - key: TELEGRAM_ADMIN_URL
+        sync: false
+      - key: TELEGRAM_INITDATA_MAX_AGE_SEC
+        value: "86400"
+      - key: VITE_API_URL
+        sync: false
+      - key: DEV_MODE
+        value: "false"
+
+  - type: worker
+    name: nodex-bot-vendor
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: npm install --include=dev
+    startCommand: npm -w apps/telegram-bot run start:vendor
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TELEGRAM_CLIENT_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_VENDOR_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CLIENT_WEBAPP_URL
+        sync: false
+      - key: TELEGRAM_VENDOR_WEBAPP_URL
+        sync: false
+      - key: TELEGRAM_ADMIN_URL
+        sync: false
+      - key: TELEGRAM_INITDATA_MAX_AGE_SEC
+        value: "86400"
+      - key: VITE_API_URL
+        sync: false
+      - key: DEV_MODE
+        value: "false"
