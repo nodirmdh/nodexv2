@@ -5,8 +5,8 @@ services:
     plan: free
     rootDir: .
     healthCheckPath: /health
-    buildCommand: npm install --include=dev && npm -w apps/api run prisma:generate && npm -w apps/api run build && npm -w apps/api exec prisma db push
-    startCommand: npm -w apps/api run start
+    buildCommand: npm install --include=dev && npm -w apps/api run prisma:generate && npm -w apps/api exec prisma db push
+    startCommand: npm -w apps/api exec tsx src/dev.ts
     autoDeploy: true
     envVars:
       - key: NODE_ENV
